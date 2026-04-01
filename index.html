@@ -402,7 +402,18 @@
   <script>
     let energy = 70;
     let captains = {};
+const savedData = localStorage.getItem("captainData");
 
+if (savedData) {
+  const parsed = JSON.parse(savedData);
+  captains = parsed.captains || {};
+  energy = parsed.energy || 70;
+}function saveData() {
+  localStorage.setItem(
+    "captainData",
+    JSON.stringify({ captains, energy })
+  );
+}    
     function updateEnergy(amount) {
       energy += amount;
       if (energy > 100) energy = 100;
@@ -473,6 +484,9 @@
 
       updateEnergy(impact);
       updateRelationshipCircles();
+saveData();
+
+personInput.value = "";
 
       personInput.value = "";
     }
