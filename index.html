@@ -1,14 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Captain Calm</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Captain Calm Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: #1e293b;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .energy-bar {
+      height: 20px;
+      border-radius: 10px;
+      background: #334155;
+      overflow: hidden;
+    }
+
+    .energy-fill {
+      height: 100%;
+      width: 70%;
+      background: limegreen;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #38bdf8;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .log-entry {
+      background: #334155;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: none;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>🚢 Captain Calm</h1>
 
-<h1>🚢 Captain Calm</h1>
+    <div class="card">
+      <h3>⚡ Energy</h3>
+      <div class="energy-bar">
+        <div id="energyFill" class="energy-fill"></div>
+      </div>
+      <p id="energyText">Energy: 70</p>
+    </div>
 
-<p>If you can see this — your app is working 🎉</p>
+    <div class="card">
+      <h3>🧭 Needs Check</h3>
+      <p id="needsStatus">Connection ✅ | Respect ⚠️ | Rest ❌</p>
+    </div>
 
+    <div class="card">
+      <h3>📝 Captain Log</h3>
+      <input id="person" placeholder="Who?" />
+      <select id="flag">
+        <option value="green">Green Flag</option>
+        <option value="red">Red Flag</option>
+      </select>
+      <select id="impact">
+        <option value="+10">Energy +</option>
+        <option value="-10">Energy -</option>
+      </select>
+      <button onclick="addLog()">Add Entry</button>
+      <div id="log"></div>
+    </div>
+
+    <div class="card">
+      <h3>🛡 Boundaries Help</h3>
+      <button onclick="boundaryHelp()">Get Suggestion</button>
+      <p id="boundaryText"></p>
+    </div>
+  </div>
+
+  <script>
+    let energy = 70;
+
+    function updateEnergy(amount) {
+      energy += amount;
+      if (energy > 100) energy = 100;
+      if (energy < 0) energy = 0;
+
+      document.getElementById("energyFill").style.width = energy + "%";
+      document.getElementById("energyText").innerText = "Energy: " + energy;
+    }
+
+    function addLog() {
+      const person = document.getElementById("person").value;
+      const flag = document.getElementById("flag").value;
+      const impact = parseInt(document.getElementById("impact").value);
+
+      const log = document.getElementById("log");
+      const entry = document.createElement("div");
+      entry.className = "log-entry";
+
+      entry.innerText = `${person} → ${flag.toUpperCase()} (${impact})`;
+      log.prepend(entry);
+
+      updateEnergy(impact);
+    }
+
+    function boundaryHelp() {
+      const responses = [
+        "I’ll get back to you later.",
+        "I can’t take that on right now.",
+        "I need some space to think.",
+        "That doesn’t work for me today."
+      ];
+
+      const random = responses[Math.floor(Math.random() * responses.length)];
+      document.getElementById("boundaryText").innerText = random;
+    }
+  </script>
 </body>
 </html>
