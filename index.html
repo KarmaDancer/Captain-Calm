@@ -8,8 +8,7 @@
     * {
       box-sizing: border-box;
     }
-
-    body {
+function suggest
       margin: 0;
       font-family: Inter, Arial, sans-serif;
       background: linear-gradient(180deg, #0f172a 0%, #132238 45%, #1e3a5f 100%);
@@ -495,7 +494,7 @@
 
   document.getElementById("navOutput").innerHTML = output;
 }
-    function suggestSupport() {
+function suggestSupport() {
   const inner = [];
 
   for (const person in captains) {
@@ -509,20 +508,30 @@
   if (inner.length > 0) {
     message = `
       🟢 You have safe people in your Inner Harbour:<br><br>
-     <b>${inner.slice(0, 3).join(", ")}</b>
-     ${inner.length > 3 ? "<br>+ more people in your Inner Harbour" : ""}
-   reaching out — you don’t have to navigate this alone.
+      <b>${inner.join(", ")}</b><br><br>
+      Consider reaching out — you don’t have to navigate this alone.<br><br>
+
+      <hr style="margin:10px 0; border:0; border-top:1px solid rgba(255,255,255,0.2);">
+
+      <b>Or you can speak to someone confidentially:</b><br>
+      Lifeline: 13 11 14<br>
+      Kids Helpline: 1800 55 1800<br>
+      Emergency: 000
     `;
   } else {
     message = `
       ⚠️ You don’t have a clear safe person logged yet.<br><br>
       Please consider reaching out to a trusted adult, school support, or a helpline.<br><br>
+
       <b>Australia support options:</b><br>
       Lifeline: 13 11 14<br>
       Kids Helpline: 1800 55 1800<br>
       Emergency: 000
     `;
   }
+
+  document.getElementById("supportOutput").innerHTML = message;
+}
 
   document.getElementById("supportOutput").innerHTML = message;
 }
