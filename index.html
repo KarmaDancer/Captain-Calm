@@ -382,7 +382,7 @@
           </div>
         </section>
 
-       <section class="card">
+<section class="card">
   <h2>🧭 How do I want to navigate this?</h2>
   <p class="muted">
     Pause. Check your needs. Choose your next move.
@@ -393,36 +393,49 @@
 
   <label>What feels confusing or upsetting?</label>
   <input id="navContext" placeholder="e.g. mixed signals, ignored, pressure" />
-<p class="muted" style="margin-top:10px;">
-  I can only control my response  not the other person.
-</p>
-<label>Which value do I want to act from?</label>
-<select id="navValue">
-  <option value="">Choose...</option>
-  <option>Respect</option>
-  <option>Kindness</option>
-  <option>Honesty</option>
-  <option>Courage</option>
-  <option>Calm</option>
-  <option>Self-respect</option>
-  <option>Growth</option>
-  <option>Empathy</option>
-  <option>Love</option>
-  <option>Patience</option>
-  <option>Responsibility</option>
-  <option>Grit</option>
-  <option>Gratitude</option>
-</select>
-         <label>What is my next move?</label>
-<select id="navAction">
-  <option value="">Choose...</option>
-  <option>Pause and think</option>
-  <option>Ask for clarity</option>
-  <option>Set a boundary</option>
-  <option>Step back</option>
-  <option>Stay engaged</option>
-  <option>Show myself compassion and stay calm</option>
-  <section class="card">
+
+  <label>Which value do I want to act from?</label>
+  <select id="navValue">
+    <option value="">Choose...</option>
+    <option>Respect</option>
+    <option>Kindness</option>
+    <option>Honesty</option>
+    <option>Courage</option>
+    <option>Calm</option>
+    <option>Self-respect</option>
+    <option>Growth</option>
+    <option>Empathy</option>
+    <option>Love</option>
+    <option>Patience</option>
+    <option>Responsibility</option>
+    <option>Grit</option>
+    <option>Gratitude</option>
+  </select>
+
+  <p class="muted" style="margin-top:10px;">
+    I can only control my response — not the other person.
+  </p>
+
+  <label for="navAction">What is my next move?</label>
+  <select id="navAction">
+    <option value="">Choose...</option>
+    <option>Pause and think</option>
+    <option>Ask for clarity</option>
+    <option>Set a boundary</option>
+    <option>Step back</option>
+    <option>Stay engaged</option>
+    <option>Show myself compassion and stay calm</option>
+    <option>Talk to a green flag captain</option>
+  </select>
+
+  <button onclick="generateNavigation()">Guide My Response</button>
+
+  <div id="navOutput" class="insight-box" style="margin-top:14px;">
+    Your guidance will appear here.
+  </div>
+</section>
+
+<section class="card">
   <h2>🤝 Support</h2>
   <p class="muted">
     You don’t have to navigate everything alone.
@@ -435,16 +448,56 @@
   </div>
 </section>
 </select>
+ 
+  </div>
+</section>
+      </div>
+    </div>
 
-  <button onclick="generateNavigation()">Guide My Response</button>
-const value = document.getElementById("navValue").value;
-  <div id="navOutput" class="insight-box" style="margin-top:14px;">
-    else if (action === "Show myself compassion and stay calm") {
-  response = "If they can’t meet your needs right now, you can meet yourself with compassion, stay calm, and protect your energy.";
-} guidance will appear here.
- function suggestSupport() {
+    <div class="footer-note">
+      Your ship, your sails, your wind — you steer.
+    </div>
+  </div>
+
+  <script>
+    function generateNavigation() {
+  const need = document.getElementById("navNeed").value;
+  const context = document.getElementById("navContext").value;
+  const value = document.getElementById("navValue").value;
+  const action = document.getElementById("navAction").value;
+
+  let response = "";
+
+  if (!action) {
+    response = "Take a breath. Start by choosing your next move.";
+  } else if (action === "Pause and think") {
+    response = "Good call. Not every situation needs an immediate response.";
+  } else if (action === "Ask for clarity") {
+    response = "You could say: 'Can you help me understand what you meant?'";
+  } else if (action === "Set a boundary") {
+    response = "You could say: 'I’m not comfortable with that right now.'";
+  } else if (action === "Step back") {
+    response = "Stepping back protects your energy. Distance can bring clarity.";
+  } else if (action === "Stay engaged") {
+    response = "Stay aware. Keep checking if your needs are still being met.";
+  } else if (action === "Show myself compassion and stay calm") {
+    response = "If they can’t meet your needs right now, you can meet yourself with compassion, stay calm, and protect your energy.";
+  } else if (action === "Talk to a green flag captain") {
+    response = "Reach out to someone in your Inner Harbour. Safe support can help you think clearly.";
+  }
+
+  const output = `
+    <b>Need:</b> ${need || "Not stated"}<br>
+    <b>Situation:</b> ${context || "Not stated"}<br>
+    <b>Value:</b> ${value || "Not chosen"}<br><br>
+    ${response}
+  `;
+
+  document.getElementById("navOutput").innerHTML = output;
+}
+    function suggestSupport() {
   const inner = [];
-  
+
   for (const person in captains) {
     if (captains[person].green > captains[person].red) {
       inner.push(person);
@@ -456,8 +509,9 @@ const value = document.getElementById("navValue").value;
   if (inner.length > 0) {
     message = `
       🟢 You have safe people in your Inner Harbour:<br><br>
-      <b>${inner.join(", ")}</b><br><br>
-      Consider reaching out to one of them.
+     <b>${inner.slice(0, 3).join(", ")}</b>
+     ${inner.length > 3 ? "<br>+ more people in your Inner Harbour" : ""}
+   reaching out — you don’t have to navigate this alone.
     `;
   } else {
     message = `
@@ -471,18 +525,7 @@ const value = document.getElementById("navValue").value;
   }
 
   document.getElementById("supportOutput").innerHTML = message;
-}   
-  </div>
-</section>
-      </div>
-    </div>
-
-    <div class="footer-note">
-      Your ship, your sails, your wind — you steer.
-    </div>
-  </div>
-
-  <script>
+}
     let energy = 70;
     let captains = {};
 const savedData = localStorage.getItem("captainData");
