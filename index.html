@@ -393,21 +393,85 @@
 
   <label>What feels confusing or upsetting?</label>
   <input id="navContext" placeholder="e.g. mixed signals, ignored, pressure" />
-
+<p class="muted" style="margin-top:10px;">
+  I can only control my response  not the other person.
+</p>
   <label>What is my next move?</label>
-  <select id="navAction">
-    <option value="">Choose...</option>
-    <option>Pause and think</option>
-    <option>Ask for clarity</option>
-    <option>Set a boundary</option>
-    <option>Step back</option>
-    <option>Stay engaged</option>
-  </select>
+<label>Which value do I want to act from?</label>
+<select id="navValue">
+  <option value="">Choose...</option>
+  <option>Respect</option>
+  <option>Kindness</option>
+  <option>Honesty</option>
+  <option>Courage</option>
+  <option>Calm</option>
+  <option>Self-respect</option>
+  <option>Growth</option>
+  <option>Empathy</option>
+  <option>Love</option>
+  <option>Patience</option>
+  <option>Responsibility</option>
+  <option>Grit</option>
+  <option>Gratitude</option>
+</select>
+<select id="navAction">
+  <option value="">Choose...</option>
+  <option>Pause and think</option>
+  <option>Ask for clarity</option>
+  <option>Set a boundary</option>
+  <option>Step back</option>
+  <option>Stay engaged</option>
+  <option>Show myself compassion and stay calm</option>
+  <section class="card">
+  <h2>🤝 Support</h2>
+  <p class="muted">
+    You don’t have to navigate everything alone.
+  </p>
+
+  <button onclick="suggestSupport()">Who can support me?</button>
+
+  <div id="supportOutput" class="insight-box" style="margin-top:14px;">
+    Your support options will appear here.
+  </div>
+</section>
+</select>
 
   <button onclick="generateNavigation()">Guide My Response</button>
-
+const value = document.getElementById("navValue").value;
   <div id="navOutput" class="insight-box" style="margin-top:14px;">
-    Your guidance will appear here.
+    else if (action === "Show myself compassion and stay calm") {
+  response = "If they can’t meet your needs right now, you can meet yourself with compassion, stay calm, and protect your energy.";
+} guidance will appear here.
+ function suggestSupport() {
+  const inner = [];
+  
+  for (const person in captains) {
+    if (captains[person].green > captains[person].red) {
+      inner.push(person);
+    }
+  }
+
+  let message = "";
+
+  if (inner.length > 0) {
+    message = `
+      🟢 You have safe people in your Inner Harbour:<br><br>
+      <b>${inner.join(", ")}</b><br><br>
+      Consider reaching out to one of them.
+    `;
+  } else {
+    message = `
+      ⚠️ You don’t have a clear safe person logged yet.<br><br>
+      Please consider reaching out to a trusted adult, school support, or a helpline.<br><br>
+      <b>Australia support options:</b><br>
+      Lifeline: 13 11 14<br>
+      Kids Helpline: 1800 55 1800<br>
+      Emergency: 000
+    `;
+  }
+
+  document.getElementById("supportOutput").innerHTML = message;
+}   
   </div>
 </section>
       </div>
@@ -568,10 +632,12 @@ function generateNavigation() {
   }
 
   const output = `
-    <b>Need:</b> ${need || "Not stated"}<br>
-    <b>Situation:</b> ${context || "Not stated"}<br><br>
-    ${response}
-  `;
+  <b>Need:</b> ${need || "Not stated"}<br>
+  <b>Situation:</b> ${context || "Not stated"}<br>
+  <b>Value:</b> ${value || "Not chosen"}<br><br>
+  ${response}
+`;
+  
 
   document.getElementById("navOutput").innerHTML = output;
 }
