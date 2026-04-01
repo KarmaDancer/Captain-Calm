@@ -427,10 +427,10 @@ function suggest
     <option>Talk to a green flag captain</option>
   </select>
 
-  <button onclick="generateNavigation()">Guide My Response</button>
+<button onclick="generateNavigation()">Reflect on My Moves</button>
 
   <div id="navOutput" class="insight-box" style="margin-top:14px;">
-    Your guidance will appear here.
+    Your move reflections will appear here.
   </div>
 </section>
 
@@ -453,46 +453,48 @@ function suggest
     </div>
 
     <div class="footer-note">
-      Your ship, your sails, your wind — you steer.
+      Your sails, your wind, your ship to Captain.
     </div>
   </div>
 
   <script>
-  function generateNavigation() {
+ function generateNavigation() {
   const need = document.getElementById("navNeed").value;
   const context = document.getElementById("navContext").value;
   const value = document.getElementById("navValue").value;
   const action = document.getElementById("navAction").value;
 
-  let response = "";
+  let reflection = "";
 
   if (!action) {
-    response = "Take a breath. Start by choosing your next move.";
+    reflection = "Take a breath. Start by noticing what choice feels most aligned for you.";
   } else if (action === "Pause and think") {
-    response = "Good call. Not every situation needs an immediate response.";
+    reflection = "Pausing can create space. You do not have to respond immediately.";
   } else if (action === "Ask for clarity") {
-    response = "You could say: 'Can you help me understand what you meant?'";
+    reflection = "Clarity can help you decide what feels true and safe for you.";
   } else if (action === "Set a boundary") {
-    response = "You could say: 'I’m not comfortable with that right now.'";
+    reflection = "A boundary can protect your energy while still honouring your values.";
   } else if (action === "Step back") {
-    response = "Stepping back protects your energy. Distance can bring clarity.";
+    reflection = "Stepping back can be a wise choice when you need calm or perspective.";
   } else if (action === "Stay engaged") {
-    response = "Stay aware. Keep checking if your needs are still being met.";
+    reflection = "Staying engaged may make sense if your needs are being respected.";
   } else if (action === "Show myself compassion and stay calm") {
-    response = "If they can’t meet your needs right now, you can meet yourself with compassion, stay calm, and protect your energy.";
+    reflection = "Even if someone else cannot meet your needs right now, you can meet yourself with compassion, love, and calm.";
   } else if (action === "Talk to a green flag captain") {
-    response = "Reach out to someone in your Inner Harbour. Safe support can help you think clearly.";
+    reflection = "Reaching out to a safe person may help you think more clearly about your options.";
   }
 
   const output = `
     <b>Need:</b> ${need || "Not stated"}<br>
     <b>Situation:</b> ${context || "Not stated"}<br>
-    <b>Value:</b> ${value || "Not chosen"}<br><br>
-    ${response}
+    <b>Value:</b> ${value || "Not chosen"}<br>
+    <b>Possible choice:</b> ${action || "Not chosen"}<br><br>
+    ${reflection}
   `;
 
   document.getElementById("navOutput").innerHTML = output;
 }
+
 
 function suggestSupport() {
   const inner = [];
