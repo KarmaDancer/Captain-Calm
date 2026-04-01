@@ -114,43 +114,62 @@
   </div>
 
   <script>
-    let energy = 70;
+  let energy = 70;
+  let captains = {};
 
-    function updateEnergy(amount) {
-      energy += amount;
-      if (energy > 100) energy = 100;
-      if (energy < 0) energy = 0;
+  function updateEnergy(amount) {
+    energy += amount;
+    if (energy > 100) energy = 100;
+    if (energy < 0) energy = 0;
 
-      document.getElementById("energyFill").style.width = energy + "%";
-      document.getElementById("energyText").innerText = "Energy: " + energy;
+    document.getElementById("energyFill").style.width = energy + "%";
+    document.getElementById("energyText").innerText = "Energy: " + energy;
+  }
+
+  function addLog() {
+    const person = document.getElementById("person").value;
+    const flag = document.getElementById("flag").value;
+    const impact = parseInt(document.getElementById("impact").value);
+
+    if (!captains[person]) {
+      captains[person] = { red: 0, green: 0 };
     }
 
-    function addLog() {
-      const person = document.getElementById("person").value;
-      const flag = document.getElementById("flag").value;
-      const impact = parseInt(document.getElementById("impact").value);
+    captains[person][flag]++;
 
-      const log = document.getElementById("log");
-      const entry = document.createElement("div");
-      entry.className = "log-entry";
+    const red = captains[person].red;
+    const green = captains[person].green;
 
-      entry.innerText = `${person} → ${flag.toUpperCase()} (${impact})`;
-      log.prepend(entry);
+    let message = "";
 
-      updateEnergy(impact);
+    if (red > green) {
+      message = "⚠️ Mostly RED flags — consider protecting your energy.";
+    } else if (green > red) {
+      message = "✅ Mostly GREEN flags — safe to engage.";
+    } else {
+      message = "⚖️ Mixed signals — observe patterns.";
     }
 
-    function boundaryHelp() {
-      const responses = [
-        "I’ll get back to you later.",
-        "I can’t take that on right now.",
-        "I need some space to think.",
-        "That doesn’t work for me today."
-      ];
+    const log = document.getElementById("log");
+    const entry = document.createElement("div");
+    entry.className = "log-entry";
+    entry.innerText = `${person} → ${flag.toUpperCase()} (${impact}) \n${message}`;
+    log.prepend(entry);
 
-      const random = responses[Math.floor(Math.random() * responses.length)];
-      document.getElementById("boundaryText").innerText = random;
-    }
-  </script>
+    updateEnergy(impact);
+  }
+
+  function boundaryHelp() {
+    const responses = [
+      "I’ll get back to you later.",
+      "I can’t take that on right now.",
+      "I need some space to think.",
+      "That doesn’t work for me today."
+    ];
+
+    const random = responses[Math.floor(Math.random() * responses.length)];
+    document.getElementById("boundaryText").innerText = random;
+  }
+</script>
 </body>
 </html>
