@@ -382,15 +382,34 @@
           </div>
         </section>
 
-        <section class="card">
-          <h2>⚖️ Navigation Reminder</h2>
-          <p class="muted">
-            Head notices patterns. Heart stays kind. Speech stays calm.
-          </p>
-          <div class="insight-box">
-            Ask: “Does this protect my needs and match my values?”
-          </div>
-        </section>
+       <section class="card">
+  <h2>🧭 How do I want to navigate this?</h2>
+  <p class="muted">
+    Pause. Check your needs. Choose your next move.
+  </p>
+
+  <label>What do I need right now?</label>
+  <input id="navNeed" placeholder="e.g. space, clarity, respect" />
+
+  <label>What feels confusing or upsetting?</label>
+  <input id="navContext" placeholder="e.g. mixed signals, ignored, pressure" />
+
+  <label>What is my next move?</label>
+  <select id="navAction">
+    <option value="">Choose...</option>
+    <option>Pause and think</option>
+    <option>Ask for clarity</option>
+    <option>Set a boundary</option>
+    <option>Step back</option>
+    <option>Stay engaged</option>
+  </select>
+
+  <button onclick="generateNavigation()">Guide My Response</button>
+
+  <div id="navOutput" class="insight-box" style="margin-top:14px;">
+    Your guidance will appear here.
+  </div>
+</section>
       </div>
     </div>
 
@@ -527,7 +546,36 @@ personInput.value = "";
       const random = responses[Math.floor(Math.random() * responses.length)];
       document.getElementById("boundaryText").innerText = random;
     }
+function generateNavigation() {
+  const need = document.getElementById("navNeed").value;
+  const context = document.getElementById("navContext").value;
+  const action = document.getElementById("navAction").value;
 
+  let response = "";
+
+  if (!action) {
+    response = "Take a breath. Start by choosing your next move.";
+  } else if (action === "Pause and think") {
+    response = "Good call. Not every situation needs an immediate response.";
+  } else if (action === "Ask for clarity") {
+    response = "You could say: 'Can you help me understand what you meant?'";
+  } else if (action === "Set a boundary") {
+    response = "You could say: 'I’m not comfortable with that right now.'";
+  } else if (action === "Step back") {
+    response = "Stepping back protects your energy. Distance can bring clarity.";
+  } else if (action === "Stay engaged") {
+    response = "Stay aware. Keep checking if your needs are still being met.";
+  }
+
+  const output = `
+    <b>Need:</b> ${need || "Not stated"}<br>
+    <b>Situation:</b> ${context || "Not stated"}<br><br>
+    ${response}
+  `;
+
+  document.getElementById("navOutput").innerHTML = output;
+}
+    
     updateEnergy(0);
     updateRelationshipCircles();
   </script>
